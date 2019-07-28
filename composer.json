@@ -21,7 +21,10 @@
     }
   ],
   "require": {
-    "php": "^7.4"
+    "php": "^7.4",
+    "league/container": "dev-master",
+    "lstrojny/functional-php": "dev-master",
+    "php-slang/php-slang": "dev-master"
   },
   "autoload": {
     "psr-4": {
