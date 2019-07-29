@@ -25,7 +25,6 @@ class QueriesTest extends TestCase
         );
 
         $this->requestHydrator = new RequestHydrator(
-            $this->request,
             new IlluminateValidator(new Translator($loader, 'ru')),
         );
     }
@@ -33,7 +32,7 @@ class QueriesTest extends TestCase
     public function testSuccessWithOneField()
     {
         $this->request->query->add(['username' => 'shindakioku']);
-        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired)->get();
+        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired, $this->request)->get();
 
         $this->assertTrue($result->username === 'shindakioku');
     }
@@ -41,7 +40,7 @@ class QueriesTest extends TestCase
     public function testSuccessWithTwoFields()
     {
         $this->request->query->add(['username' => 'shindakioku', 'email' => 'shindakioku@gmail.com']);
-        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired)->get();
+        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired, $this->request)->get();
 
         $this->assertTrue($result->username === 'shindakioku');
         $this->assertTrue($result->email === 'shindakioku@gmail.com');
@@ -50,7 +49,7 @@ class QueriesTest extends TestCase
     public function testFailWithOneField()
     {
         $this->request->query->add(['email' => 'shindakioku@gmail.com']);
-        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired);
+        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired, $this->request);
 
         $this->assertTrue($result->isLeft());
         $this->assertSame(['username' => ['Поле обязательно.']], $result->get()->errors());
@@ -59,7 +58,7 @@ class QueriesTest extends TestCase
     public function testFailWithTwoFields()
     {
         $this->request->query->add(['email' => 'shindakioku.com']);
-        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired);
+        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired, $this->request);
 
         $this->assertTrue($result->isLeft());
         $this->assertSame(

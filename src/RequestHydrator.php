@@ -11,33 +11,30 @@ use PhpSlang\Either\{Either};
 
 class RequestHydrator
 {
-    private Request $request;
     private Validator $validator;
     private Reflection $reflection;
 
     public function __construct(
-        Request $request,
         Validator $validator,
         ?Reflection $reflection = null
     ) {
-        $this->request = $request;
         $this->validator = $validator;
         $this->reflection = $reflection ?? new PhpReflection;
     }
 
-    public function queries(DtoHydrator $dtoHydrator): Either
+    public function queries(DtoHydrator $dtoHydrator, Request $request): Either
     {
-        return $this->validateAndCreate($this->request->queries()->get(), $dtoHydrator);
+        return $this->validateAndCreate($request->queries()->get(), $dtoHydrator);
     }
 
-    public function headers(DtoHydrator $dtoHydrator): Either
+    public function headers(DtoHydrator $dtoHydrator, Request $request): Either
     {
-        return $this->validateAndCreate($this->request->headers()->get(), $dtoHydrator);
+        return $this->validateAndCreate($request->headers()->get(), $dtoHydrator);
     }
 
-    public function body(DtoHydrator $dtoHydrator): Either
+    public function body(DtoHydrator $dtoHydrator, Request $request): Either
     {
-        return $this->validateAndCreate($this->request->body()->get(), $dtoHydrator);
+        return $this->validateAndCreate($request->body()->get(), $dtoHydrator);
     }
 
     private function validateAndCreate(array $values, DtoHydrator $dtoHydrator): Either
