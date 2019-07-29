@@ -2,17 +2,16 @@
 
 namespace RequestHydrator\Validator;
 
-use Illuminate\Contracts\Translation\Translator;
 use PhpSlang\Either\{Either, Left, Right};
-use Illuminate\Validation\Validator as IValidator;
+use Illuminate\Contracts\Validation\Factory;
 
 class IlluminateValidator implements Validator
 {
-    private Translator $translator;
+    private Factory $validator;
 
-    public function __construct(Translator $translator)
+    public function __construct(Factory $validator)
     {
-        $this->translator = $translator;
+        $this->validator = $validator;
     }
 
     public function validate(
@@ -20,10 +19,8 @@ class IlluminateValidator implements Validator
         array $rules,
         array $messages = []
     ): Either {
-        $validator = new IValidator($this->translator, $data, $rules, $messages);
-
         try {
-            return new Right($validator->validate());
+            return new Right($this->validator->make($data, $rules, $messages)->validate());
         } catch (\Exception $e) {
             return new Left($e);
         }
