@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Request;
+namespace RequestHydrator\Request;
 
 use \Illuminate\Http\Request as IRequest;
 use PhpSlang\Option\Option;

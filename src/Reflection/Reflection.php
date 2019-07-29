@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Reflection;
+namespace RequestHydrator\Reflection;
 
 interface Reflection
 {

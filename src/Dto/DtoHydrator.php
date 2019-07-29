@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dto;
+namespace RequestHydrator\Dto;
 
 abstract class DtoHydrator
 {

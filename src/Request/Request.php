@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Request;
+namespace RequestHydrator\Request;
 
 use \PhpSlang\Option\Option;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator;
+namespace RequestHydrator\Validator;
 
 use PhpSlang\Either\Either;
 

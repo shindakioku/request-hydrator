@@ -2,7 +2,7 @@
 
 namespace Tests\Reflection;
 
-use App\Reflection\PhpReflection;
+use RequestHydrator\Reflection\PhpReflection;
 use PHPUnit\Framework\TestCase;
 use Tests\Reflection\Classes\TwoFields;
 

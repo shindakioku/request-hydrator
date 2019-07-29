@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace RequestHydrator;
 
-use App\Dto\DtoHydrator;
-use App\Reflection\Reflection;
-use App\Reflection\PhpReflection;
-use App\Request\Request;
-use App\Validator\Validator;
-use PhpSlang\Either\{Either, Right, Left};
+use RequestHydrator\Dto\DtoHydrator;
+use RequestHydrator\Reflection\Reflection;
+use RequestHydrator\Reflection\PhpReflection;
+use RequestHydrator\Request\Request;
+use RequestHydrator\Validator\Validator;
+use PhpSlang\Either\{Either};
 
 class RequestHydrator
 {

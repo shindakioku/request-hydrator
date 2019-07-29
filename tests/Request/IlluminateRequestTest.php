@@ -2,7 +2,7 @@
 
 namespace Tests\Request;
 
-use App\Request\IlluminateRequest;
+use RequestHydrator\Request\IlluminateRequest;
 use PHPUnit\Framework\TestCase;
 
 class IlluminateRequestTest extends TestCase

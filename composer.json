@@ -25,13 +25,12 @@
     "illuminate/http": "^5.8@dev",
     "illuminate/translation": "^5.8@dev",
     "illuminate/validation": "^5.8@dev",
-    "league/container": "dev-master",
     "lstrojny/functional-php": "dev-master",
     "php-slang/php-slang": "dev-master"
   },
   "autoload": {
     "psr-4": {
-      "App\\": "src/",
+      "RequestHydrator\\": "src/",
       "Tests\\": "tests/"
     }
   },

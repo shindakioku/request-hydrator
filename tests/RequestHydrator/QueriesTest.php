@@ -2,9 +2,9 @@
 
 namespace Tests\RequestHydrator;
 
-use App\Request\IlluminateRequest;
-use App\RequestHydrator;
-use App\Validator\IlluminateValidator;
+use RequestHydrator\Request\IlluminateRequest;
+use RequestHydrator\RequestHydrator;
+use RequestHydrator\Validator\IlluminateValidator;
 use Illuminate\Translation\ArrayLoader;
 use Illuminate\Translation\Translator;
 use PHPUnit\Framework\TestCase;

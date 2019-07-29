@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator;
+namespace RequestHydrator\Validator;
 
 use Illuminate\Contracts\Translation\Translator;
 use PhpSlang\Either\{Either, Left, Right};

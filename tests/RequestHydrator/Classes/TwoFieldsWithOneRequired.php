@@ -2,7 +2,7 @@
 
 namespace Tests\RequestHydrator\Classes;
 
-use App\Dto\DtoHydrator;
+use RequestHydrator\Dto\DtoHydrator;
 
 class TwoFieldsWithOneRequired extends DtoHydrator
 {
