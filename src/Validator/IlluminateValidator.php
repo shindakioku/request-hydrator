@@ -23,11 +23,10 @@ class IlluminateValidator implements Validator
     public function validate(
         array $data,
         array $rules,
-        Translator $translator,
         callable $errorHandler = null,
         array $messages = []
     ): Either {
-        $validator = new IValidator($translator, $data, $rules, $messages);
+        $validator = new IValidator($this->translator, $data, $rules, $messages);
 
         try {
             return new Right($validator->validate());

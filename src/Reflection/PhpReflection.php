@@ -24,7 +24,12 @@ class PhpReflection implements Reflection
         return $newInstance;
     }
 
-    public function setClass(string $klass): Reflection
+    public function instanceWithoutConstructor()
+    {
+        return $this->class->newInstanceWithoutConstructor();
+    }
+
+    public function setClass($klass): Reflection
     {
         $this->class = new \ReflectionClass($klass);
 

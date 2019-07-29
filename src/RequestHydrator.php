@@ -7,25 +7,36 @@ use App\Reflection\Reflection;
 use App\Reflection\PhpReflection;
 use App\Request\Request;
 use App\Validator\Validator;
+use Illuminate\Translation\Translator;
+use PhpSlang\Either\{Either, Right};
 
 class RequestHydrator
 {
     private Request $request;
     private Validator $validator;
     private Reflection $reflection;
+    private Translator $translator;
 
-    public function __construct(Request $request, Validator $validator, ?Reflection $reflection = null)
-    {
+    public function __construct(
+        Request $request,
+        Validator $validator,
+        ?Reflection $reflection = null
+    ) {
         $this->request = $request;
         $this->validator = $validator;
         $this->reflection = $reflection ?? new PhpReflection;
     }
 
-    public function queries(DtoHydrator $dtoHydrator)
+    public function queries(DtoHydrator $dtoHydrator, callable $errorHandler = null): Either
     {
+        $values = $this->request->queries()->get();
         $this->reflection->setClass($dtoHydrator);
-        $fields = $this->reflection->properties();
 
-        var_dump($fields);
+        return $this->validator->validate(
+            $values, $dtoHydrator->rules(), $errorHandler,
+            $dtoHydrator->messages()
+        )
+            ->right(fn () => new Right($this->reflection->createBySettingsProperties($values)))
+            ->get();
     }
 }

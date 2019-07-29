@@ -8,5 +8,7 @@ interface Reflection
 
     public function property(string $name): \ReflectionProperty;
 
-    public function setClass(string $klass): Reflection;
+    public function instanceWithoutConstructor();
+
+    public function setClass($klass): Reflection;
 }
