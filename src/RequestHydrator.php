@@ -7,7 +7,7 @@ use App\Reflection\Reflection;
 use App\Reflection\PhpReflection;
 use App\Request\Request;
 use App\Validator\Validator;
-use PhpSlang\Either\{Either, Right};
+use PhpSlang\Either\{Either, Right, Left};
 
 class RequestHydrator
 {
@@ -34,7 +34,6 @@ class RequestHydrator
             $values, $dtoHydrator->rules(),
             $dtoHydrator->messages()
         )
-            ->right(fn () => new Right($this->reflection->createBySettingsProperties($values)))
-            ->get();
+            ->right(fn () => $this->reflection->createBySettingsProperties($values));
     }
 }

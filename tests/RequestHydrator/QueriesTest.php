@@ -18,10 +18,15 @@ class QueriesTest extends TestCase
     public function setUp(): void
     {
         $this->request = new IlluminateRequest;
+        $loader = new ArrayLoader;
+        $loader->addMessages(
+            'ru', 'validation',
+            ['required' => 'Поле обязательно.', 'email' => 'Некорректный email.']
+        );
 
         $this->requestHydrator = new RequestHydrator(
             $this->request,
-            new IlluminateValidator(new Translator(new ArrayLoader(), 'ru')),
+            new IlluminateValidator(new Translator($loader, 'ru')),
         );
     }
 
@@ -40,5 +45,26 @@ class QueriesTest extends TestCase
 
         $this->assertTrue($result->username === 'shindakioku');
         $this->assertTrue($result->email === 'shindakioku@gmail.com');
+    }
+
+    public function testFailWithOneField()
+    {
+        $this->request->query->add(['email' => 'shindakioku@gmail.com']);
+        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired);
+
+        $this->assertTrue($result->isLeft());
+        $this->assertSame(['username' => ['Поле обязательно.']], $result->get()->errors());
+    }
+
+    public function testFailWithTwoFields()
+    {
+        $this->request->query->add(['email' => 'shindakioku.com']);
+        $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired);
+
+        $this->assertTrue($result->isLeft());
+        $this->assertSame(
+            ['username' => ['Поле обязательно.'], 'email' => ['Некорректный email.']],
+            $result->get()->errors()
+        );
     }
 }
