@@ -2,18 +2,24 @@
 
 namespace RequestHydrator\Request;
 
-use \Illuminate\Http\Request as IRequest;
 use PhpSlang\Option\Option;
 use function Functional\curry;
 use function Functional\filter;
 use function Functional\pick;
 use function Functional\reduce_right;
 
-class IlluminateRequest extends IRequest implements Request
+class IlluminateRequest implements Request
 {
+    private \Illuminate\Http\Request $request;
+
+    public function __construct(\Illuminate\Http\Request $request)
+    {
+        $this->request = $request;
+    }
+
     public function queries(array $keys = []): Option
     {
-        $queries = $this->query->all();
+        $queries = $this->request->query->all();
         if (count($keys)) {
             return $this->getWithKeys($keys, $queries);
         }
@@ -23,7 +29,7 @@ class IlluminateRequest extends IRequest implements Request
 
     public function headers(array $keys = []): Option
     {
-        $headers = $this->headers->all();
+        $headers = $this->request->headers->all();
         if (count($keys)) {
             return $this->getWithKeys($keys, $headers);
         }
@@ -33,7 +39,7 @@ class IlluminateRequest extends IRequest implements Request
 
     public function body(array $keys = []): Option
     {
-        $body = $this->post();
+        $body = $this->request->post();
         if (count($keys)) {
             return $this->getWithKeys($keys, $body);
         }
