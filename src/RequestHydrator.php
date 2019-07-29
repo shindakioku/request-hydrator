@@ -7,7 +7,6 @@ use App\Reflection\Reflection;
 use App\Reflection\PhpReflection;
 use App\Request\Request;
 use App\Validator\Validator;
-use Illuminate\Translation\Translator;
 use PhpSlang\Either\{Either, Right};
 
 class RequestHydrator
@@ -15,7 +14,6 @@ class RequestHydrator
     private Request $request;
     private Validator $validator;
     private Reflection $reflection;
-    private Translator $translator;
 
     public function __construct(
         Request $request,
@@ -27,13 +25,13 @@ class RequestHydrator
         $this->reflection = $reflection ?? new PhpReflection;
     }
 
-    public function queries(DtoHydrator $dtoHydrator, callable $errorHandler = null): Either
+    public function queries(DtoHydrator $dtoHydrator): Either
     {
         $values = $this->request->queries()->get();
         $this->reflection->setClass($dtoHydrator);
 
         return $this->validator->validate(
-            $values, $dtoHydrator->rules(), $errorHandler,
+            $values, $dtoHydrator->rules(),
             $dtoHydrator->messages()
         )
             ->right(fn () => new Right($this->reflection->createBySettingsProperties($values)))

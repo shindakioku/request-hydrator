@@ -9,7 +9,6 @@ interface Validator
     public function validate(
         array $data,
         array $rules,
-        callable $errorHandler = null,
         array $messages = []
     ): Either;
 }
