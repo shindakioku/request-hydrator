@@ -22,9 +22,9 @@
   ],
   "require": {
     "php": "^7.4",
-    "illuminate/http": "^5.9@dev",
-    "illuminate/translation": "^5.9@dev",
-    "illuminate/validation": "^5.9@dev",
+    "illuminate/http": "^5.8@dev",
+    "illuminate/translation": "^5.8@dev",
+    "illuminate/validation": "^5.8@dev",
     "league/container": "dev-master",
     "lstrojny/functional-php": "dev-master",
     "php-slang/php-slang": "dev-master"
