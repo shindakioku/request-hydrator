@@ -27,7 +27,21 @@ class RequestHydrator
 
     public function queries(DtoHydrator $dtoHydrator): Either
     {
-        $values = $this->request->queries()->get();
+        return $this->validateAndCreate($this->request->queries()->get(), $dtoHydrator);
+    }
+
+    public function headers(DtoHydrator $dtoHydrator): Either
+    {
+        return $this->validateAndCreate($this->request->headers()->get(), $dtoHydrator);
+    }
+
+    public function body(DtoHydrator $dtoHydrator): Either
+    {
+        return $this->validateAndCreate($this->request->body()->get(), $dtoHydrator);
+    }
+
+    private function validateAndCreate(array $values, DtoHydrator $dtoHydrator): Either
+    {
         $this->reflection->setClass($dtoHydrator);
 
         return $this->validator->validate(
