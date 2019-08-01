@@ -20,10 +20,10 @@ class IlluminateValidator implements Validator
     public function validate(
         array $data,
         array $rules,
-        array $messages = []
+        $messages = []
     ): Either {
         try {
-            return new Right($this->validator->make($data, $rules, $messages)->validate());
+            return new Right($this->validator->make($data, $rules, $messages ?? [])->validate());
         } catch (\Exception $e) {
             return new Left($e);
         }

@@ -4,7 +4,7 @@ namespace Tests\Reflection\Classes;
 
 use RequestHydrator\Dto\DtoHydrator;
 
-class TwoFields extends DtoHydrator
+class TwoFields implements DtoHydrator
 {
     /**
      * @var string
@@ -22,5 +22,10 @@ class TwoFields extends DtoHydrator
             'username' => 'required',
             'password' => 'string',
         ];
+    }
+
+    public function messages()
+    {
+        // TODO: Implement messages() method.
     }
 }

@@ -2,12 +2,9 @@
 
 namespace RequestHydrator\Dto;
 
-abstract class DtoHydrator
+interface DtoHydrator
 {
-    public abstract function rules(): array;
+    public function rules(): array;
 
-    public function messages(): array
-    {
-        return [];
-    }
+    public function messages() /* array | void */;
 }
