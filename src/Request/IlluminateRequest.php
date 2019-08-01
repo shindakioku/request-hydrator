@@ -10,7 +10,10 @@ use function Functional\reduce_right;
 
 class IlluminateRequest implements Request
 {
-    private \Illuminate\Http\Request $request;
+    /**
+     * @var \Illuminate\Http\Request
+     */
+    private $request;
 
     public function __construct(\Illuminate\Http\Request $request)
     {
@@ -47,16 +50,34 @@ class IlluminateRequest implements Request
         return Option::of($body);
     }
 
+    public function setQueries(array $values): Request
+    {
+        $this->request->query->add($values);
+
+        return $this;
+    }
+
+    public function setHeaders(array $values): Request
+    {
+        $this->request->headers->add($values);
+
+        return $this;
+    }
+
     private function getWithKeys(array $keys, array $values): Option
     {
-        $pickValues = curry(fn (array $values, $key) => pick($values, $key))($values);
+        $pickValues = curry(function (array $values, $key) {
+            return pick($values, $key);
+        })($values);
 
         return Option::of(
             filter(reduce_right($keys, function ($key, $_, $__, $acc) use ($pickValues) {
                 $acc[$key] = $pickValues($key);
 
                 return $acc;
-            }, []), fn ($_, $value) => $value !== null)
+            }, []), function ($_, $value) {
+                return $value !== null;
+            })
         );
     }
 }

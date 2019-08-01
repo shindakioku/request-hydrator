@@ -11,9 +11,20 @@ use PhpSlang\Either\{Either};
 
 class RequestHydrator
 {
-    private Validator $validator;
-    private Request $request;
-    private Reflection $reflection;
+    /**
+     * @var Validator
+     */
+    private $validator;
+
+    /**
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * @var PhpReflection|Reflection|null
+     */
+    private $reflection;
 
     public function __construct(
         Validator $validator,
@@ -48,6 +59,8 @@ class RequestHydrator
             $values, $dtoHydrator->rules(),
             $dtoHydrator->messages()
         )
-            ->right(fn () => $this->reflection->createBySettingsProperties($values));
+            ->right(function () use ($values) {
+                return $this->reflection->createBySettingsProperties($values);
+            });
     }
 }

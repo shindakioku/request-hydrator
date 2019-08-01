@@ -6,8 +6,15 @@ use RequestHydrator\Dto\DtoHydrator;
 
 class TwoFields extends DtoHydrator
 {
-    public string $username;
-    public string $password;
+    /**
+     * @var string
+     */
+    public $username;
+
+    /**
+     * @var string
+     */
+    public $password;
 
     public function rules(): array
     {

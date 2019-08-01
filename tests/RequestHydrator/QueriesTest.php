@@ -2,6 +2,8 @@
 
 namespace Tests\RequestHydrator;
 
+use Illuminate\Http\Request;
+use Illuminate\Validation\Factory;
 use RequestHydrator\Request\IlluminateRequest;
 use RequestHydrator\RequestHydrator;
 use RequestHydrator\Validator\IlluminateValidator;
@@ -12,12 +14,19 @@ use Tests\RequestHydrator\Classes\TwoFieldsWithOneRequired;
 
 class QueriesTest extends TestCase
 {
-    private IlluminateRequest $request;
-    private RequestHydrator $requestHydrator;
+    /**
+     * @var IlluminateRequest
+     */
+    private $request;
+
+    /**
+     * @var RequestHydrator
+     */
+    private $requestHydrator;
 
     public function setUp(): void
     {
-        $this->request = new IlluminateRequest;
+        $this->request = new IlluminateRequest(new Request);
         $loader = new ArrayLoader;
         $loader->addMessages(
             'ru', 'validation',
@@ -25,13 +34,14 @@ class QueriesTest extends TestCase
         );
 
         $this->requestHydrator = new RequestHydrator(
-            new IlluminateValidator(new Translator($loader, 'ru')),
+            new IlluminateValidator(new Factory(new Translator($loader, 'ru'))),
+            $this->request,
         );
     }
 
     public function testSuccessWithOneField()
     {
-        $this->request->query->add(['username' => 'shindakioku']);
+        $this->request->setQueries(['username' => 'shindakioku']);
         $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired, $this->request)->get();
 
         $this->assertTrue($result->username === 'shindakioku');
@@ -39,7 +49,7 @@ class QueriesTest extends TestCase
 
     public function testSuccessWithTwoFields()
     {
-        $this->request->query->add(['username' => 'shindakioku', 'email' => 'shindakioku@gmail.com']);
+        $this->request->setQueries(['username' => 'shindakioku', 'email' => 'shindakioku@gmail.com']);
         $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired, $this->request)->get();
 
         $this->assertTrue($result->username === 'shindakioku');
@@ -48,7 +58,7 @@ class QueriesTest extends TestCase
 
     public function testFailWithOneField()
     {
-        $this->request->query->add(['email' => 'shindakioku@gmail.com']);
+        $this->request->setQueries(['email' => 'shindakioku@gmail.com']);
         $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired, $this->request);
 
         $this->assertTrue($result->isLeft());
@@ -57,7 +67,7 @@ class QueriesTest extends TestCase
 
     public function testFailWithTwoFields()
     {
-        $this->request->query->add(['email' => 'shindakioku.com']);
+        $this->request->setQueries(['email' => 'shindakioku.com']);
         $result = $this->requestHydrator->queries(new TwoFieldsWithOneRequired, $this->request);
 
         $this->assertTrue($result->isLeft());

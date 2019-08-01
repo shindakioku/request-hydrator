@@ -8,7 +8,10 @@ use Tests\Reflection\Classes\TwoFields;
 
 class ReflectionClassTest extends TestCase
 {
-    private PhpReflection $reflection;
+    /**
+     * @var PhpReflection
+     */
+    private $reflection;
 
     public function setUp(): void
     {

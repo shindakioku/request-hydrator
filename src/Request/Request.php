@@ -11,4 +11,8 @@ interface Request
     public function headers(array $keys = []): Option;
 
     public function body(array $keys = []): Option;
+
+    public function setQueries(array $values): Request;
+
+    public function setHeaders(array $values): Request;
 }

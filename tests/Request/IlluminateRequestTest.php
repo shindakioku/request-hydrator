@@ -2,16 +2,20 @@
 
 namespace Tests\Request;
 
+use Illuminate\Http\Request;
 use RequestHydrator\Request\IlluminateRequest;
 use PHPUnit\Framework\TestCase;
 
 class IlluminateRequestTest extends TestCase
 {
-    private IlluminateRequest $request;
+    /**
+     * @var IlluminateRequest
+     */
+    private $request;
 
     public function setUp(): void
     {
-        $this->request = new IlluminateRequest();
+        $this->request = new IlluminateRequest(new Request);
     }
 
     public function testGetAllQueries()
@@ -20,7 +24,7 @@ class IlluminateRequestTest extends TestCase
             'user_id' => 1,
             'username' => 'shindakioku',
         ];
-        $this->request->query->add($values);
+        $this->request->setQueries($values);
         $result = $this->request->queries();
 
         $this->assertTrue($result->isNotEmpty());
@@ -33,7 +37,7 @@ class IlluminateRequestTest extends TestCase
             'user_id' => 1,
             'username' => 'shindakioku',
         ];
-        $this->request->query->add($values);
+        $this->request->setQueries($values);
 
         $this->assertSame(['user_id' => 1], $this->request->queries(['user_id'])->get());
         $this->assertSame(['username' => 'shindakioku'], $this->request->queries(['username'])->get());
@@ -45,7 +49,7 @@ class IlluminateRequestTest extends TestCase
             'user_id' => 1,
             'username' => 'shindakioku',
         ];
-        $this->request->query->add($values);
+        $this->request->setQueries($values);
 
         $this->assertSame(
             ['username' => 'shindakioku', 'user_id' => 1],

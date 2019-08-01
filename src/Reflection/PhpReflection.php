@@ -4,7 +4,10 @@ namespace RequestHydrator\Reflection;
 
 class PhpReflection implements Reflection
 {
-    private \ReflectionClass $class;
+    /**
+     * @var \ReflectionClass
+     */
+    private $class;
 
     public function properties(): array
     {
@@ -19,7 +22,9 @@ class PhpReflection implements Reflection
     public function createBySettingsProperties(array $values)
     {
         $newInstance = $this->class->newInstanceWithoutConstructor();
-        \Functional\each($values, fn ($value, $key) => $newInstance->$key = $value);
+        \Functional\each($values, function($value, $key) use ($newInstance) {
+            $newInstance->$key = $value;
+        });
 
         return $newInstance;
     }

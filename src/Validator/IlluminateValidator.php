@@ -7,7 +7,10 @@ use Illuminate\Contracts\Validation\Factory;
 
 class IlluminateValidator implements Validator
 {
-    private Factory $validator;
+    /**
+     * @var Factory
+     */
+    private $validator;
 
     public function __construct(Factory $validator)
     {
