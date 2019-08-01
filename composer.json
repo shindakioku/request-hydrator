@@ -21,7 +21,7 @@
     }
   ],
   "require": {
-    "php": "^7.4",
+    "php": "^7.2",
     "illuminate/http": "^5.8@dev",
     "illuminate/translation": "^5.8@dev",
     "illuminate/validation": "^5.8@dev",
