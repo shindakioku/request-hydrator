@@ -1,10 +1,5 @@
 # Request-Hydrator
 
-Describe yourself classes (DTO) with validation rules and custom messages and then just take your DTO with already validated properties!
-Easy for use, easy for change default request & validator object to your favorite!
-
-------------
-To first, just describe your request dto
 ```php
 <?php
 
@@ -23,8 +18,6 @@ class CreateUser extends DtoHydrator
     }
 }
 ```
-
-Then use one of three `queries`, `headers`, `body`.
 
 ```php
 <?php
@@ -51,9 +44,8 @@ class UsersController
 }
 ```
 
-`Request` and `Validator` by default is interfaces. You can use adapters from `illuminate`. They're ready for using.
-Or you can create your simple `request` & `validator`.
-For example:
+--------------------
+
 
 ```php
 <?php
